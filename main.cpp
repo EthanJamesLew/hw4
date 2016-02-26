@@ -42,13 +42,18 @@ int main(int argc, char *argv[])
 	inFile >> axisA >> axisB >> axisC >> axisD;
 	inFile >> intA;
 	inFile >> charA >> floatA >> charB;
-	inFile >> strA >> strB >> strC >> strD >> strE >> strF;
+	//Ensure that getline doesn't retrieve empty string
+	do
+	{
+		getline(inFile, strE);
+	} while (strE == "");
+	inFile >> strA >> strB >> strC >> strD;
 
 	outFile << fixed << "Volume of sphere: " << volume(axisA, axisB, axisC) << '\n';
 	outFile << scientific << "Distance between two points: " << distance(axisA, axisD, axisC, axisB) << '\n';
 	outFile << fixed << "Slope between two points: " << slope(axisA, axisD, axisC, axisB);
 	outFile << transposeString(floatA, charB, intA, charA) << '\n';
-	outFile << combineString(strA , strB, strC, strD, strE + " " + strF);
+	outFile << combineString(strA , strB, strC, strD, strE);
 
 	outFile.close();
 	inFile.close();
@@ -89,7 +94,7 @@ string getFileName(ios_base::open_mode mode)
 //Computes the volume of ellipsoid.
 double volume(double axisA, double axisB, double axisC)
 {
-	return (4 / 3) * axisA * axisB * axisC;
+	return (4.0 / 3.0) * axisA * axisB * axisC;
 }
 
 //Computes the distance between two points
